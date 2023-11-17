@@ -477,7 +477,17 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   </div>
   
 
-</header><section id="introduction" class="level2" data-number="28.1"><h2 data-number="28.1" class="anchored" data-anchor-id="introduction">
+</header><div class="callout callout-style-simple callout-warning">
+<div class="callout-body d-flex">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-body-container">
+<p>Olá! Este capítulo do livro ainda <strong>não está traduzido</strong> para a versão Português-BR. <br> Caso você queira contribuir com o projeto de tradução, leia as instruções em: <a href="https://github.com/cienciadedatos/pt-r4ds/wiki" class="uri">https://github.com/cienciadedatos/pt-r4ds/wiki</a> <br> A versão original (em inglês) do livro R for Data Science está disponível em: <a href="https://r4ds.hadley.nz/" class="uri">https://r4ds.hadley.nz/</a></p>
+</div>
+</div>
+</div>
+<section id="introduction" class="level2" data-number="28.1"><h2 data-number="28.1" class="anchored" data-anchor-id="introduction">
 <span class="header-section-number">28.1</span> Introduction</h2>
 <p>Quarto provides a unified authoring framework for data science, combining your code, its results, and your prose. Quarto documents are fully reproducible and support dozens of output formats, like PDFs, Word files, presentations, and more.</p>
 <p>Quarto files are designed to be used in three ways:</p>
@@ -1054,39 +1064,39 @@ superscript^2^ subscript~2~
 </div>
 <p>When set, this will save the output of the chunk to a specially named file on disk. On subsequent runs, knitr will check to see if the code has changed, and if it hasn’t, it will reuse the cached results.</p>
 <p>The caching system must be used with care, because by default it is based on the code only, not its dependencies. For example, here the <code>processed_data</code> chunk depends on the <code>raw-data</code> chunk:</p>
-<div class="sourceCode" id="cb13"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: raw-data</span></span>
-<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a><span class="co">#| cache: true</span></span>
-<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>rawdata <span class="ot">&lt;-</span> readr<span class="sc">::</span><span class="fu">read_csv</span>(<span class="st">"a_very_large_file.csv"</span>)</span>
-<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="sourceCode" id="cb14"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: processed_data</span></span>
-<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a><span class="co">#| cache: true</span></span>
-<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a>processed_data <span class="ot">&lt;-</span> rawdata <span class="sc">|&gt;</span> </span>
-<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="sc">!</span><span class="fu">is.na</span>(import_var)) <span class="sc">|&gt;</span> </span>
-<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">new_variable =</span> <span class="fu">complicated_transformation</span>(x, y, z))</span>
-<span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<pre><code>``` {{r}}
+#| label: raw-data
+#| cache: true
+
+rawdata &lt;- readr::read_csv("a_very_large_file.csv")
+```</code></pre>
+<pre><code>``` {{r}}
+#| label: processed_data
+#| cache: true
+
+processed_data &lt;- rawdata |&gt; 
+  filter(!is.na(import_var)) |&gt; 
+  mutate(new_variable = complicated_transformation(x, y, z))
+```</code></pre>
 <p>Caching the <code>processed_data</code> chunk means that it will get re-run if the dplyr pipeline is changed, but it won’t get rerun if the <code>read_csv()</code> call changes. You can avoid that problem with the <code>dependson</code> chunk option:</p>
-<div class="sourceCode" id="cb15"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: processed-data</span></span>
-<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a><span class="co">#| cache: true</span></span>
-<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a><span class="co">#| dependson: "raw-data"</span></span>
-<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a>processed_data <span class="ot">&lt;-</span> rawdata <span class="sc">|&gt;</span> </span>
-<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="sc">!</span><span class="fu">is.na</span>(import_var)) <span class="sc">|&gt;</span> </span>
-<span id="cb15-8"><a href="#cb15-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">new_variable =</span> <span class="fu">complicated_transformation</span>(x, y, z))</span>
-<span id="cb15-9"><a href="#cb15-9" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<pre><code>``` {{r}}
+#| label: processed-data
+#| cache: true
+#| dependson: "raw-data"
+
+processed_data &lt;- rawdata |&gt; 
+  filter(!is.na(import_var)) |&gt; 
+  mutate(new_variable = complicated_transformation(x, y, z))
+```</code></pre>
 <p><code>dependson</code> should contain a character vector of <em>every</em> chunk that the cached chunk depends on. Knitr will update the results for the cached chunk whenever it detects that one of its dependencies have changed.</p>
 <p>Note that the chunks won’t update if <code>a_very_large_file.csv</code> changes, because knitr caching only tracks changes within the <code>.qmd</code> file. If you want to also track changes to that file you can use the <code>cache.extra</code> option. This is an arbitrary R expression that will invalidate the cache whenever it changes. A good function to use is <code><a href="https://rdrr.io/r/base/file.info.html">file.mtime()</a></code>: it returns when it was last modified. Then you can write:</p>
-<div class="sourceCode" id="cb16"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: raw-data</span></span>
-<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a><span class="co">#| cache: true</span></span>
-<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a><span class="co">#| cache.extra: !expr file.mtime("a_very_large_file.csv")</span></span>
-<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a>rawdata <span class="ot">&lt;-</span> readr<span class="sc">::</span><span class="fu">read_csv</span>(<span class="st">"a_very_large_file.csv"</span>)</span>
-<span id="cb16-7"><a href="#cb16-7" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<pre><code>``` {{r}}
+#| label: raw-data
+#| cache: true
+#| cache.extra: !expr file.mtime("a_very_large_file.csv")
+
+rawdata &lt;- readr::read_csv("a_very_large_file.csv")
+```</code></pre>
 <p>We’ve followed the advice of <a href="https://twitter.com/drob/status/738786604731490304">David Robinson</a> to name these chunks: each chunk is named after the primary object that it creates. This makes it easier to understand the <code>dependson</code> specification.</p>
 <p>As your caching strategies get progressively more complicated, it’s a good idea to regularly clear out all your caches with <code><a href="https://rdrr.io/pkg/knitr/man/clean_cache.html">knitr::clean_cache()</a></code>.</p>
 <section id="exercises-6" class="level3" data-number="28.8.1"><h3 data-number="28.8.1" class="anchored" data-anchor-id="exercises-6">

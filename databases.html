@@ -445,7 +445,17 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   </div>
   
 
-</header><section id="introduction" class="level2" data-number="21.1"><h2 data-number="21.1" class="anchored" data-anchor-id="introduction">
+</header><div class="callout callout-style-simple callout-warning">
+<div class="callout-body d-flex">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-body-container">
+<p>Olá! Este capítulo do livro ainda <strong>não está traduzido</strong> para a versão Português-BR. <br> Caso você queira contribuir com o projeto de tradução, leia as instruções em: <a href="https://github.com/cienciadedatos/pt-r4ds/wiki" class="uri">https://github.com/cienciadedatos/pt-r4ds/wiki</a> <br> A versão original (em inglês) do livro R for Data Science está disponível em: <a href="https://r4ds.hadley.nz/" class="uri">https://r4ds.hadley.nz/</a></p>
+</div>
+</div>
+</div>
+<section id="introduction" class="level2" data-number="21.1"><h2 data-number="21.1" class="anchored" data-anchor-id="introduction">
 <span class="header-section-number">21.1</span> Introduction</h2>
 <p>A huge amount of data lives in databases, so it’s essential that you know how to access it. Sometimes you can ask someone to download a snapshot into a <code>.csv</code> for you, but this gets painful quickly: every time you need to make a change you’ll have to communicate with another human. You want to be able to reach into the database directly to get the data you need, when you need it.</p>
 <p>In this chapter, you’ll first learn the basics of the DBI package: how to use it to connect to a database and then retrieve data with a SQL<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a> query. <strong>SQL</strong>, short for <strong>s</strong>tructured <strong>q</strong>uery <strong>l</strong>anguage, is the lingua franca of databases, and is an important language for all data scientists to learn. That said, we’re not going to start with SQL, but instead we’ll teach you dbplyr, which can translate your dplyr code to the SQL. We’ll use that as a way to teach you some of the most important features of SQL. You won’t become a SQL master by the end of the chapter, but you will be able to identify the most important components and understand what they do.</p>
@@ -563,7 +573,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">diamonds_db</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/tbl.html">tbl</a></span><span class="op">(</span><span class="va">con</span>, <span class="st">"diamonds"</span><span class="op">)</span></span>
 <span><span class="va">diamonds_db</span></span>
 <span><span class="co">#&gt; # Source:   table&lt;diamonds&gt; [?? x 10]</span></span>
-<span><span class="co">#&gt; # Database: DuckDB v0.9.1 [unknown@Linux 6.2.0-1015-azure:R 4.3.2/:memory:]</span></span>
+<span><span class="co">#&gt; # Database: DuckDB v0.9.1 [unknown@Linux 6.2.0-1016-azure:R 4.3.2/:memory:]</span></span>
 <span><span class="co">#&gt;   carat cut       color clarity depth table price     x     y     z</span></span>
 <span><span class="co">#&gt;   &lt;dbl&gt; &lt;fct&gt;     &lt;fct&gt; &lt;fct&gt;   &lt;dbl&gt; &lt;dbl&gt; &lt;int&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;</span></span>
 <span><span class="co">#&gt; 1  0.23 Ideal     E     SI2      61.5    55   326  3.95  3.98  2.43</span></span>
@@ -600,7 +610,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span></span>
 <span><span class="va">big_diamonds_db</span></span>
 <span><span class="co">#&gt; # Source:   SQL [?? x 5]</span></span>
-<span><span class="co">#&gt; # Database: DuckDB v0.9.1 [unknown@Linux 6.2.0-1015-azure:R 4.3.2/:memory:]</span></span>
+<span><span class="co">#&gt; # Database: DuckDB v0.9.1 [unknown@Linux 6.2.0-1016-azure:R 4.3.2/:memory:]</span></span>
 <span><span class="co">#&gt;   carat cut       color clarity price</span></span>
 <span><span class="co">#&gt;   &lt;dbl&gt; &lt;fct&gt;     &lt;fct&gt; &lt;fct&gt;   &lt;int&gt;</span></span>
 <span><span class="co">#&gt; 1  1.54 Premium   E     VS2     15002</span></span>
@@ -828,7 +838,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span><span class="co">#&gt; Use `na.rm = TRUE` to silence this warning</span></span>
 <span><span class="co">#&gt; This warning is displayed once every 8 hours.</span></span>
 <span><span class="co">#&gt; # Source:   SQL [?? x 2]</span></span>
-<span><span class="co">#&gt; # Database: DuckDB v0.9.1 [unknown@Linux 6.2.0-1015-azure:R 4.3.2/:memory:]</span></span>
+<span><span class="co">#&gt; # Database: DuckDB v0.9.1 [unknown@Linux 6.2.0-1016-azure:R 4.3.2/:memory:]</span></span>
 <span><span class="co">#&gt;   dest  delay</span></span>
 <span><span class="co">#&gt;   &lt;chr&gt; &lt;dbl&gt;</span></span>
 <span><span class="co">#&gt; 1 SFO    2.67</span></span>
