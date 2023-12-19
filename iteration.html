@@ -1245,7 +1245,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>Sometimes when working with many files at once, it’s not possible to fit all your data into memory at once, and you can’t do <code>map(files, read_csv)</code>. One approach to deal with this problem is to load your data into a database so you can access just the bits you need with dbplyr.</p>
 <p>If you’re lucky, the database package you’re using will provide a handy function that takes a vector of paths and loads them all into the database. This is the case with duckdb’s <code>duckdb_read_csv()</code>:</p>
 <div class="cell">
-<div class="sourceCode" id="cb51"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">con</span> <span class="op">&lt;-</span> <span class="fu">DBI</span><span class="fu">::</span><span class="fu"><a href="https://dbi.r-dbi.org/reference/dbConnect.html">dbConnect</a></span><span class="op">(</span><span class="fu">duckdb</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/duckdb/man/duckdb.html">duckdb</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span>
+<div class="sourceCode" id="cb51"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">con</span> <span class="op">&lt;-</span> <span class="fu">DBI</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/DBI/man/dbConnect.html">dbConnect</a></span><span class="op">(</span><span class="fu">duckdb</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/duckdb/man/duckdb.html">duckdb</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="fu">duckdb</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/duckdb/man/duckdb_read_csv.html">duckdb_read_csv</a></span><span class="op">(</span><span class="va">con</span>, <span class="st">"gapminder"</span>, <span class="va">paths</span><span class="op">)</span></span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>This would work well here, but we don’t have csv files, instead we have excel spreadsheets. So we’re going to have to do it “by hand”. Learning to do it by hand will also help you when you have a bunch of csvs and the database that you’re working with doesn’t have one function that will load them all in.</p>
@@ -1265,10 +1265,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span><span class="co">#&gt; 6 Australia   Oceania      69.1  8691212    10040.  1952</span></span>
 <span><span class="co">#&gt; # ℹ 136 more rows</span></span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>Now we can connect to the database, and use <code><a href="https://dbi.r-dbi.org/reference/dbCreateTable.html">DBI::dbCreateTable()</a></code> to turn our template into a database table:</p>
+<p>Now we can connect to the database, and use <code><a href="https://rdrr.io/pkg/DBI/man/dbCreateTable.html">DBI::dbCreateTable()</a></code> to turn our template into a database table:</p>
 <div class="cell">
-<div class="sourceCode" id="cb53"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">con</span> <span class="op">&lt;-</span> <span class="fu">DBI</span><span class="fu">::</span><span class="fu"><a href="https://dbi.r-dbi.org/reference/dbConnect.html">dbConnect</a></span><span class="op">(</span><span class="fu">duckdb</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/duckdb/man/duckdb.html">duckdb</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="fu">DBI</span><span class="fu">::</span><span class="fu"><a href="https://dbi.r-dbi.org/reference/dbCreateTable.html">dbCreateTable</a></span><span class="op">(</span><span class="va">con</span>, <span class="st">"gapminder"</span>, <span class="va">template</span><span class="op">)</span></span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb53"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">con</span> <span class="op">&lt;-</span> <span class="fu">DBI</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/DBI/man/dbConnect.html">dbConnect</a></span><span class="op">(</span><span class="fu">duckdb</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/duckdb/man/duckdb.html">duckdb</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="fu">DBI</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/DBI/man/dbCreateTable.html">dbCreateTable</a></span><span class="op">(</span><span class="va">con</span>, <span class="st">"gapminder"</span>, <span class="va">template</span><span class="op">)</span></span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p><code>dbCreateTable()</code> doesn’t use the data in <code>template</code>, just the variable names and types. So if we inspect the <code>gapminder</code> table now you’ll see that it’s empty but it has the variables we need with the types we expect:</p>
 <div class="cell">
@@ -1278,13 +1278,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span><span class="co">#&gt; # ℹ 6 variables: country &lt;chr&gt;, continent &lt;chr&gt;, lifeExp &lt;dbl&gt;, pop &lt;dbl&gt;,</span></span>
 <span><span class="co">#&gt; #   gdpPercap &lt;dbl&gt;, year &lt;dbl&gt;</span></span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>Next, we need a function that takes a single file path, reads it into R, and adds the result to the <code>gapminder</code> table. We can do that by combining <code>read_excel()</code> with <code><a href="https://dbi.r-dbi.org/reference/dbAppendTable.html">DBI::dbAppendTable()</a></code>:</p>
+<p>Next, we need a function that takes a single file path, reads it into R, and adds the result to the <code>gapminder</code> table. We can do that by combining <code>read_excel()</code> with <code><a href="https://rdrr.io/pkg/DBI/man/dbAppendTable.html">DBI::dbAppendTable()</a></code>:</p>
 <div class="cell">
 <div class="sourceCode" id="cb55"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">append_file</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">path</span><span class="op">)</span> <span class="op">{</span></span>
 <span>  <span class="va">df</span> <span class="op">&lt;-</span> <span class="fu">readxl</span><span class="fu">::</span><span class="fu"><a href="https://readxl.tidyverse.org/reference/read_excel.html">read_excel</a></span><span class="op">(</span><span class="va">path</span><span class="op">)</span></span>
 <span>  <span class="va">df</span><span class="op">$</span><span class="va">year</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://readr.tidyverse.org/reference/parse_number.html">parse_number</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/basename.html">basename</a></span><span class="op">(</span><span class="va">path</span><span class="op">)</span><span class="op">)</span></span>
 <span>  </span>
-<span>  <span class="fu">DBI</span><span class="fu">::</span><span class="fu"><a href="https://dbi.r-dbi.org/reference/dbAppendTable.html">dbAppendTable</a></span><span class="op">(</span><span class="va">con</span>, <span class="st">"gapminder"</span>, <span class="va">df</span><span class="op">)</span></span>
+<span>  <span class="fu">DBI</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/DBI/man/dbAppendTable.html">dbAppendTable</a></span><span class="op">(</span><span class="va">con</span>, <span class="st">"gapminder"</span>, <span class="va">df</span><span class="op">)</span></span>
 <span><span class="op">}</span></span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Now we need to call <code>append_file()</code> once for each element of <code>paths</code>. That’s certainly possible with <code><a href="https://purrr.tidyverse.org/reference/map.html">map()</a></code>:</p>
@@ -1304,10 +1304,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span><span class="co">#&gt; # Database: DuckDB v0.9.2 [unknown@Linux 6.2.0-1018-azure:R 4.3.2/:memory:]</span></span>
 <span><span class="co">#&gt;    year     n</span></span>
 <span><span class="co">#&gt;   &lt;dbl&gt; &lt;dbl&gt;</span></span>
-<span><span class="co">#&gt; 1  2007   142</span></span>
-<span><span class="co">#&gt; 2  1967   142</span></span>
-<span><span class="co">#&gt; 3  1977   142</span></span>
-<span><span class="co">#&gt; 4  1987   142</span></span>
+<span><span class="co">#&gt; 1  1967   142</span></span>
+<span><span class="co">#&gt; 2  1977   142</span></span>
+<span><span class="co">#&gt; 3  1987   142</span></span>
+<span><span class="co">#&gt; 4  2007   142</span></span>
 <span><span class="co">#&gt; 5  1952   142</span></span>
 <span><span class="co">#&gt; 6  1957   142</span></span>
 <span><span class="co">#&gt; # ℹ more rows</span></span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
